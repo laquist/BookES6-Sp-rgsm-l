@@ -1,7 +1,7 @@
-/**
+-/**
  * REFLESKTIONS- og EVALUERINGSopgave
  * 
- * Fomål: Du skal få endnu bedre styr på koden og refletere over hvordan og hvorfor Book data sættes op i forskellige strukturer (datastrukturer). 
+ * Fomål: Du skal få endnu bedre styr på koden og reflektere over hvordan og hvorfor Book data sættes op i forskellige strukturer (datastrukturer). 
  * Tid: Du må maksimalt bruge tre lektioner (en halv dag) til opgaven. 
  * 
  * Du bestemmer selv hvordan du vil svare på opgaven. Du kan enten skrive dine svar under hvert spørgsmål eller skrive det ind i et Word dokument.
@@ -11,10 +11,15 @@
  */
 
 // Spørgsmål 1: Hvad betyder det når vi definerer en klasse i JS?
-// Svar: ...
+// Svar: Det er til at kunne lave objekter af klassen. Så i dette scenarie, så kan vi lave et objekt/en instans af Book, som så har nogle værdier og metoder/funktioner.
+// Det er dog næsten det samme som at lave function.
 class Book {
     // Spørgsmål 2: Beskriv med dine egne ord hvad en constructor er. Du må gerne finde en beskrivelse på nettet, men beskriv den med dine egne ord.
+    // Svar: Constructoren bruges til at sætte de værdier af Book, som der skal sættes, når du opretter en ny Book (opretter et nyt objekt/en ny instans).
+    //       Så i dette tilfælde har Book en title og year og isbn, som skal sættes når vi laver en ny book.
     // Spørgsmål 3: Hvilken datatype modtager denne constructor? Lav også et eksempel på hvordan denne ser ud med test data.
+    // Svar: Object?
+    //       var slots = {isbn: formEl.isbn.value, title: formEl.title.value, year: formEl.year.value};
     constructor(slots) {
         this.isbn = slots.isbn;
         this.title = slots.title;
@@ -22,7 +27,11 @@ class Book {
     };
 
     // Spørgsmål 4: Hvad er en statisk metode og hvorfor skriver vi at det skal være sådan en?
+    // Svar: En statisk metode betyder at den ikke hører til det objekt/den instans man kører metoden på, men er fælles for alle objekterne/instanserne.
+    //       Så selvom man har Book1, Book2, Book3, og kalder Book1.(static metode), så vil den give det samme resultat som Book2 og Book3, vil gøre. Det er en fælles metode.
     // Spørgsmål 5: Beskriv hvad convertRow2Obj metoden gør og hvordan den gør det.
+    // Svar: bookRow er en enkelt række taget ud af den tabel, hvor vi har vores data. Så hvis vi har 4 rækker, som er 4 forskellige objekter, så er bookRow en enkelt række.
+    //       Den bruger så den række til at lave et nyt objekt/instans. (Da vi ved den række fra tabellen indeholder de værdier vi skal bruge i vores constructor)
     static convertRow2Obj(bookRow) {
         let book = new Book(bookRow);
         return book;
@@ -39,8 +48,13 @@ class Book {
         }
         if (bookTableString) {
             // Spørgsmål 6: Hvad gør parse()? Hvordan er bookTableString og bookTable anderledes?
+            // Svar: JSON.parse parser fra et JSON objekt til et JS objekt. Så du får et JS objekt med de værdier som JSON objektet har.
             bookTable = JSON.parse(bookTableString)
-            // Spørgsmål 7: Beskriv hvad Object.keys() mmetoden retunerer. Både hvilken datatype og ét eksempel på hvad keys variablen bliver sat til.
+            // Spørgsmål 7: Beskriv hvad Object.keys() metoden retunerer. Både hvilken datatype og ét eksempel på hvad keys variablen bliver sat til.
+            // Svar: vores bookTable er et objekt (lidt som en slags container), som har et array af objekter, som så er de Books vi nu har. 
+            //       Det er så det samme som keys bliver. Det bliver et objekt (container) (* Bliver det et array? typeof viser bare objekt.), som har et array af objekter (vores Books). Længere nede laver vi så hvert objekt i arrayet, om til book objekter.
+            //       Keys returner/Bliver sat til:
+            //       (2) ["1", "2"] (1 og 2 er ISBN på mine bøger)
             keys = Object.keys(bookTable);
             console.log(keys.length + ' books loaded')
             for (let i = 0; i < keys.length; i++) {
@@ -54,8 +68,11 @@ class Book {
         let bookTableString='', error = false, numberOfBooks = Object.keys(Book.instances).length;
         try {
             // Spørgsmål 8: Hvordan ser hhv. Book.instances og bookTableString ud? Hvad er det funktionen stringify() gør
+            // Svar: Book.instances er et objekt, som er sat op som et map.
+            //       
             bookTableString = JSON.stringify(Book.instances);
             // Spørgsmål 9: Hvorfor skal vi stringify() Book.instances for, at kunne bruge localStorage?
+            // Svar: 
             localStorage['bookTable'] = bookTableString;
         } catch (error) {
             console.error('Error when writing to Local Storage\n' + error)
