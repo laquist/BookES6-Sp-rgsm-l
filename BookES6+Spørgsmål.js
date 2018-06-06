@@ -68,11 +68,16 @@ class Book {
         let bookTableString='', error = false, numberOfBooks = Object.keys(Book.instances).length;
         try {
             // Spørgsmål 8: Hvordan ser hhv. Book.instances og bookTableString ud? Hvad er det funktionen stringify() gør
-            // Svar: Book.instances er et objekt, som er sat op som et map.
-            //       
+            // Svar: Book.instances er et objekt, som er sat op som et map (med alle de books der er gemt)
+            //       {1: Book, 2: Book, 444: Book, 555: Book}
+            //
+            //       bookTableString ser bare ud som en JSON string, med de objekter/Books, som vi har.
+            //       {"1":{"isbn":"1","title":"TestBog1","year":"1000"},"2":{"isbn":"2","title":"TestBog2","year":"2000"},"444":{"isbn":"444","title":"TestJohn","year":"4040"},"555":{"isbn":"555","title":"TestPoul","year":"5000"}}"
+            //
+            //       stringify() converter egentligt bare formatet. Den laver en JavaScript value om til en JSON string. 
             bookTableString = JSON.stringify(Book.instances);
             // Spørgsmål 9: Hvorfor skal vi stringify() Book.instances for, at kunne bruge localStorage?
-            // Svar: 
+            // Svar: Local Storage kan kun håndtere key/value pairs. Så det man vil gemme skal være key/value pairs. Og det er JSON's format.
             localStorage['bookTable'] = bookTableString;
         } catch (error) {
             console.error('Error when writing to Local Storage\n' + error)
@@ -84,7 +89,9 @@ class Book {
     };
     
     static add(slots) {
-        // Spørgsmål 10: Beskriv hvad der sker på næste linje. 
+        // Spørgsmål 10: Beskriv hvad der sker på næste linje.
+        // Svar: Vi laver en ny key/value eller en ny række/ny record i vores map Book.instances, hvor vi sætter vores key til slots.isbn (som vi har fået som et parameter).
+        //       Vi sætter så value til at være et helt objekt: slots - som indeholder: isbn, title, year værdierne)
         Book.instances[slots.isbn] = new Book(slots);
         console.log('Book ' + slots.isbn + ' created.')
     };
@@ -113,6 +120,9 @@ class Book {
 };
 
 // Spørgsmål 11: Nedenstående property er datatypen object. Hvordan ser dette Object ud når createTestData() har kørt?
-// Spørgsmål 12: Ud fra teorien om datastrukture er det så stillet op som en record eller et map? Hvorfor tror du at det er den datastruktur der er valgt? 
+// Svar: Det er stadig et objekt, men det er nu sat op som et map (key/value), med de Books/objekter som der bliver lavet i createTestData()
+// Spørgsmål 12: Ud fra teorien om datastrukture er det så stillet op som en record eller et map? Hvorfor tror du at det er den datastruktur der er valgt?
+// Svar: Det er stillet op som et map. Jeg tror det er fordi at du på den måde kan gemme et helt objekt på en enkelt plads/række/key-value slot. Fordi så kan du gemme et objekt, som så indeholder mange værdier. Jeg tror egentligt at objektet er sat op som en record.
 // Spørgsmål 13: Hvilket formål har denne property i vores app?
+// Svar: Book.instances er den liste der gemmer/indeholder alle vores Books/Objekter/Instanser
 Book.instances = {};
